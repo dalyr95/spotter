@@ -19,7 +19,7 @@ module.exports = React.createClass({
 	},
     render: function() {
         return (
-            <div className="page signin">
+            <div className="page settings">
 	            <div className="user_avatar"></div>
                 Settings
                 <form>
@@ -43,7 +43,6 @@ module.exports = React.createClass({
         );
     },
     proceed: function(e) {
-        console.log('proceed');
     	e.preventDefault();
 
         this.getFlux().actions.page.update({

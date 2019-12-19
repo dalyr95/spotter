@@ -1,0 +1,13 @@
+.page.page_success {
+	background-color: #3F2686;
+	color: #fff;
+	font-family: montserratlight;
+	min-height: 100vh;
+	padding: 60px 40px;
+	text-align: center;
+}
+
+.page.page_success h2 {
+	font-size: 44px;
+	margin-bottom: 40px;
+}

@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "watch": "watchify app.js -o public/bundle/js/bundle.js -v",
-    "watch-css": "catw public/css/*.css -o public/bundle/css/concat.css -c 'npm run build-css'",
+    "watch-css": "watch 'npm run build-css' public/css/ -d",
     "build-css": "cleancss -o public/bundle/css/bundle.css public/css/main.css --skip-rebase",
     "browserify": "browserify app.js | uglifyjs > public/bundle/js/bundle.js",
     "build": "npm run browserify",
@@ -34,6 +34,7 @@
     "nodemon": "^1.9.2",
     "reactify": "^1.1.1",
     "uglify-js": "^2.6.2",
+    "watch": "^1.0.1",
     "watchify": "^3.7.0"
   },
   "browserify": {

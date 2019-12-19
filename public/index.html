@@ -4,8 +4,44 @@
 		<meta charset="utf-8">
 		<title>Spotter</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="bundle/css/bundle.css" />
-		<script src="//cdn.auth0.com/js/lock-9.1.min.js"></script>
+
+		<script>
+			/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+			!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+
+			/*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
+			!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+		</script>
+
+		<style>
+			body { opacity: 0; transition: opacity 0.1s linear; }
+		</style>
+
+		<link rel="preload" href="bundle/css/bundle.css" as="style" onload="this.rel='stylesheet'" />
+
+		<script src="https://cdn.ravenjs.com/3.7.0/raven.min.js"></script>
+		<script>
+			if (window.location.hostname !== 'localhost') { Raven.config('https://e6d585ae2b254431a3869bfc906686fa@sentry.io/107746').install(); }
+		</script>
+
+		<link rel="apple-touch-icon" sizes="180x180" href="/hello/images/icons/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" href="/hello/images/icons/favicon-32x32.png" sizes="32x32" />
+		<link rel="icon" type="image/png" href="/hello/images/icons/favicon-16x16.png" sizes="16x16" />
+		<link rel="manifest" href="/hello/images/icons/manifest.json" />
+		<link rel="mask-icon" href="/hello/images/icons/safari-pinned-tab.svg" color="#5bbad5" />
+		<link rel="shortcut icon" href="/hello/images/icons/favicon.ico" />
+		<meta name="msapplication-config" content="/hello/images/icons/browserconfig.xml" />
+		<meta name="theme-color" content="#ffffff" />
+
+		<meta property="og:url"				content="https://app.spotter.online/" />
+		<meta property="fb:app_id"			content="573417852849067" />
+		<meta property="og:type"			content="article" />
+		<meta property="og:title"			content="The best trainers deserve the best rewards" />
+		<meta property="og:description"		content="Sports professional? Join us for FREE and every time your clients buy a sports nutrition product you've recommended, we'll pay you commission." />
+		<meta property="og:image"			content="https://app.spotter.online/hello/images/share-image.png" />
+		<meta property="og:image:type"		content="image/png" />
+		<meta property="og:image:height"	content="972" />
+		<meta property="og:image:width"		content="1440" />
 	</head>
 	<body>
 		<!-- Google Tag Manager -->
@@ -21,6 +57,7 @@
 			<div id="content"></div>
 		</div>
 
+		<script src="https://cdn.auth0.com/js/lock/10.0/lock.min.js"></script>
 		<script src="bundle/js/bundle.js"></script>
 	</body>
 </html>

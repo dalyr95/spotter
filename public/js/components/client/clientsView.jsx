@@ -29,14 +29,28 @@ module.exports = React.createClass({
 		window.scrollTo(0,0);
 	},
     render: function() {
-        var clients = (<li>You currently have no clients</li>);
+        var clients = (<li className="client_list_client client_list_no_clients">NO CLIENTS</li>);
 
-        if (this.state.clients) {
-            console.log(this.state.clients);
+        var pageClasses = {
+            page: true,
+            clients_view: true,
+            light_blue: true,
+            no_clients: (!this.state.clients || this.state.clients.length === 0)
+        };
+
+        var buttons = (
+            <div className="client_list_actions">
+                <a className="edit_icon" href="#" onClick={this.editClients}>Edit clients</a>
+                <p/>
+                <a className="delete_icon" href="#" onClick={this.deleteClients}>Select and delete clients</a>
+            </div>
+        );
+
+        if (this.state.clients && this.state.clients.length > 0) {
             clients = [];
 
             this.state.clients.forEach(function(client) {
-                var picture = (client.picture) ? { backgroundImage:'url(' + client.picture  + ')' } : {};
+                var picture = (client.picture) ? { backgroundImage:'url(' + client.picture  + '?&w=52&h=52&fit=facearea&faceindex=1)' } : {};
 
                 clients.push(
                     <li key={client.id} className="client_list_client" onClick={this.selectClient.bind(this, client)}>
@@ -45,28 +59,15 @@ module.exports = React.createClass({
                     </li>
                 );
             }.bind(this));
-        }
 
-        var pageClasses = {
-            page: true,
-            signin: true
-        };
-
-        var buttons = (
-            <div>
-                <a href="#" onClick={this.editClients}>Edit clients</a>
-                <p/>
-                <a href="#" onClick={this.deleteClients}>Select and delete clients</a>
-            </div>
-        );
-
-        if (this.state.mode) {
-            pageClasses[this.state.mode] = true;
-            buttons = (
-                <div>
-                    <button onClick={this.modeClear}>Done</button>
-                </div>
-            )
+            if (this.state.mode) {
+                pageClasses[this.state.mode] = true;
+                buttons = (
+                    <div>
+                        <button onClick={this.modeClear}>Done</button>
+                    </div>
+                )
+            }
         }
 
         return (
@@ -74,16 +75,24 @@ module.exports = React.createClass({
 	            <Avatar person={this.state.trainer} />
                 <h2 className="center">{this.state.trainer.name}'s clients</h2>
                 <p/>
+                <p className="center purple"><small>Select a client to send recommendations to:</small></p>
+                <p/>
                 <ul>
                     {clients}
+                    <li className="client_list_client client_list_add_client add_icon add_icon_green" onClick={ this.proceedAddClient }>
+                        Add a client
+                    </li>
                 </ul>
                 <p/>
                 {buttons}
+                <div className="spotter_tip">
+                    <em>SPOTTER TIP</em><br/>
+                    Why not add yourself as a client? Test drive how Spotter works and get some great products at a discount whilst you're at it!
+                </div>
             </div>
         );
     },
     selectClient: function(client, e) {
-        console.log('selectClient', e);
     	e.preventDefault();
 
         if (this.state.mode === 'delete') {
@@ -105,7 +114,7 @@ module.exports = React.createClass({
                 client: client
             });
             this.getFlux().actions.page.update({
-                page: 'product'
+                page: 'masterProduct'
             });
         }
     },
@@ -128,6 +137,12 @@ module.exports = React.createClass({
 
         this.setState({
             mode: null
+        });
+    },
+    proceedAddClient: function(e) {
+        e.preventDefault();
+        this.getFlux().actions.page.update({
+            page: 'clientAdd'
         });
     }
 

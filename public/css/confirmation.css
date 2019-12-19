@@ -1,0 +1,159 @@
+.page.page_confirmation {
+	padding: 0;
+}
+
+.page_confirmation .confirmation_header {
+	background-color: #3F2686;
+	color: #fff;
+	font-family: montserratlight;
+	padding: 20px;
+}
+
+.page_confirmation .item_list.confirmation_product_results .child_item {
+	background-color: #fff;
+    border-bottom: 2px solid #cfd5dc;
+    min-height: 102px;
+    padding: 10px 10px 10px 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.page_confirmation .item_list.confirmation_product_results .child_item.child_item_bubble {
+	min-height: 118px;
+}
+
+.page_confirmation .item_list.confirmation_product_results .child_item .child_item_image {
+    height: 80px;
+    left: 10px;
+    position: absolute;
+    top: 10px;
+    width: 60px;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.page_confirmation .item_list.confirmation_product_results .child_item h2 {
+	margin-bottom: 8px;
+}
+
+.page_confirmation .item_list.confirmation_product_results .child_item .child_item_earn,
+.page_confirmation .item_list.confirmation_product_results .child_item .child_item_price {
+	float: left;
+	font-family: montserratlight;
+	width: calc(50% - 5px - 25px);
+	text-align: center;
+}
+
+.page_confirmation .item_list.confirmation_product_results .child_item .child_item_earn strong,
+.page_confirmation .item_list.confirmation_product_results .child_item .child_item_price strong {
+	font-family: montserratregular;
+	font-weight: bold;
+}
+
+.page_confirmation .item_list.confirmation_product_results .child_item .child_item_earn {
+	color: #13B5EA;
+}
+
+.page_confirmation .item_list.confirmation_product_results .child_item .child_item_earn small,
+.page_confirmation .item_list.confirmation_product_results .child_item .child_item_price small {
+	display: block;
+}
+
+.page_confirmation .item_list.confirmation_product_results .child_item .child_item_delete {
+    background-color: #3F2686;
+    border-radius: 100%;
+    color: #fff;
+    cursor: pointer;
+    float: right;
+    font-size: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 30px;
+}
+
+.page_confirmation .confirmation_prices {
+	background-color: #EDF2FA;
+	color: #281854;
+	font-family: montserratlight;
+	overflow: hidden;
+	padding: 20px;
+	text-align: right;
+    line-height: 30px;
+}
+
+.page_confirmation .confirmation_prices > div {
+	overflow: hidden;
+}
+
+.page_confirmation .confirmation_prices > div strong {
+	font-family: montserratregular;
+}
+
+.page_confirmation .confirmation_prices > div div {
+	float: left;
+}
+
+.page_confirmation .confirmation_prices > div div:first-child {
+	width: calc(100% - 100px);
+}
+
+.page_confirmation .confirmation_prices > div div:last-child {
+	width: 100px;
+}
+
+.page_confirmation .confirmation_prices .confirmation_earn {
+	background-color: #fff;
+	color: #13B5EA;
+	left: -20px;
+	line-height: 50px;
+	margin-top: 10px;
+	overflow: hidden;
+	padding: 0 20px;
+	position: relative;
+	width: calc(100% + 40px);
+}
+
+.page_confirmation .confirmation_send {
+	background-color: #281854;
+	color: #fff;
+	padding: 20px 20px 60px;
+}
+
+.page_confirmation .confirmation_send button {
+	display: inline-block;
+    margin: 0 auto;
+    width: auto;
+    padding: 0 30px 0 20px;
+}
+
+.page_confirmation .confirmation_send .button_whatsapp {
+	background-color: #25D366;
+}
+
+.page_confirmation .confirmation_send .button_email {
+	background-color: #FF916F;
+}
+
+.page_confirmation .confirmation_send .button_email::before,
+.page_confirmation .confirmation_send .button_whatsapp::before  {
+	background-position: 50%;
+	background-size: contain;
+	background-repeat: no-repeat;
+    content: '';
+    display: inline-block;
+    height: 26px;
+    margin-right: 10px;
+    position: relative;
+    top: 6px;
+    width: 26px;
+}
+
+.page_confirmation .confirmation_send .button_email::before {
+	background-image: url('../../images/email.png');
+}
+
+.page_confirmation .confirmation_send .button_whatsapp::before {
+	background-image: url('../../images/whatsapp.png');
+}

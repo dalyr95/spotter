@@ -4,6 +4,9 @@ var CONSTANTS = require('../constants/constants');
 
 var actions = {
 	auth: {
+		init: function() {
+			this.dispatch(CONSTANTS.AUTH.INIT, {});
+		},
 		autho: {
 			get: function() {
 				this.dispatch(CONSTANTS.AUTH.AUTHO.GET, {});
@@ -13,6 +16,9 @@ var actions = {
 			},
 			show: function() {
 				this.dispatch(CONSTANTS.AUTH.AUTHO.SHOW, {});
+			},
+			logout: function() {
+				this.dispatch(CONSTANTS.AUTH.AUTHO.LOGOUT, {});
 			}
 		},
 		spotter: {
@@ -51,6 +57,32 @@ var actions = {
 			this.dispatch(CONSTANTS.PRODUCTS.RESET);
 		}
 	},
+	childProducts: {
+		get: function(payload) {
+			this.dispatch(CONSTANTS.CHILDPRODUCTS.GET, {
+				id: payload.id,
+				value: payload.value,
+				limit: payload.limit
+			});
+		}
+	},
+	masterProducts: {
+		search: function(payload) {
+			this.dispatch(CONSTANTS.MASTERPRODUCTS.SEARCH, {
+				value: payload.value
+			});
+		},
+		selected: function(payload) {
+			this.dispatch(CONSTANTS.MASTERPRODUCTS.SELECTED, {
+				masterProduct: payload.masterProduct
+			});
+		},
+		value: function(payload) {
+			this.dispatch(CONSTANTS.MASTERPRODUCTS.VALUE, {
+				value: payload.value
+			});
+		}
+	},
 	client: {
 		add: function(payload) {
 			this.dispatch(CONSTANTS.CLIENT.ADD, { client: payload.client });
@@ -67,7 +99,6 @@ var actions = {
 			}
 		},
 		set: function(payload) {
-			console.log('set client', payload);
 			this.dispatch(CONSTANTS.CLIENT.SET, { client: payload.client });
 		},
 		update: function(payload) {
@@ -89,7 +120,6 @@ var actions = {
 			}
 		},
 		update: function(payload) {
-			console.log('payload', payload);
 			this.dispatch(CONSTANTS.TRAINER.UPDATE, { trainer: payload.trainer });
 		}
 	}

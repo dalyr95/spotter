@@ -32,50 +32,19 @@ module.exports = React.createClass({
 	},
     render: function() {
 
-		var totalPrice, commisionPrice;
-
-		var selectedProducts = [];
-		if (this.state.selectedProducts.length > 0) {
-			totalPrice		= 0;
-			commisionPrice	= 0;
-
-			this.state.selectedProducts.forEach(function(product) {
-				totalPrice		+= product.price;
-				commisionPrice	+= product.expected_commission;
-				selectedProducts.push(
-					(<Item key={product.id} item={product} />)
-				);
-			});
-
-			commisionPrice 	= (Math.round(commisionPrice * 100) / 100).toFixed(2);
-			totalPrice 		= totalPrice.toFixed(2);
-		}
-
         return (
             <div className="page page_success">
-            	<Avatar person={this.state.selectedUser} />
-                <div>
-                	<p>Great! We’ve sent these products by email to {this.state.selectedUser.fname}. When they buy them, you’ll earn the reward shown below</p>
-                </div>
-                <div>
-                	{selectedProducts}
-                </div>
-                <div className="product_price right">
-	                <p></p>
-                	<h2>Total Price:<span>&pound;{totalPrice}</span></h2>
-                	<h2>You would earn:<span>&pound;{commisionPrice}</span></h2>
-                </div>
-                <div className="right hide">
-                	<p></p>
-                	<p><a href="#" onClick={this.viewEmail}>View email</a></p>
-                </div>
+                <h2>Wahoo!</h2>
+                <p>Your recommendations have been sent to { this.state.selectedUser.fname }</p>
+                <p>We’ll let you know if { this.state.selectedUser.fname } buys the stuff and you make some cash</p>
+                <p/>
+                <button className="home_icon" onClick={ this.home }>Back to home</button>
             </div>
         );
     },
-    viewEmail: function(e) {
-    	e.preventDefault();
-    	this.getFlux().actions.page.update({
-    		page: 'email'
-    	});
+    home: function() {
+        this.getFlux().actions.page.update({
+            page: 'home'
+        });
     }
 });

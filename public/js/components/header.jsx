@@ -10,49 +10,49 @@ var React = require('react'),
 var cx = require('classnames');
 
 module.exports = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin('PageStore')],
+	mixins: [FluxMixin, StoreWatchMixin('PageStore', 'ProductStore')],
 	getInitialState: function() {
 		return {};
 	},
 	getStateFromFlux: function() {
-		var flux	= this.getFlux();
-		var state	= flux.store('PageStore').getState();
-		var auth	= flux.store('AuthStore').getState();
+		var flux			= this.getFlux();
+		var state			= flux.store('PageStore').getState();
+		var productStore	= flux.store('ProductStore').getState();
 
 		return {
-			pages:				state.pages,
 			page:				state.currentPage,
 			back:				(state.currentPage !== 'home' && state.currentPage !== 'signin'),
-			trainer:			auth.trainer
+			selectedProducts:	productStore.selectedProducts,
+			userNames:			state.userNames
 		};
 	},
 	render: function() {
-		var avatar, background;
+		var basket;
+		var page = this.state.page;
 
-		if (this.state.trainer && this.state.trainer.picture) {
-			background = {
-				backgroundImage: 'url(' + this.state.trainer.picture + ')'
-			}
-
-			avatar = (<div className="header_avatar" style={background}></div>);
+		if (page === 'masterProduct' || page === 'product') {
+			basket = (
+				<div className={ cx({ header_basket: true, header_basket_items: (this.state.selectedProducts.length > 0) }) } onClick={ this.goToBasket }>
+					<em>Basket</em> ({this.state.selectedProducts.length})
+				</div>
+			);
 		}
 
 		return (
 			<header>
-				<div className={cx( 'header_back', { 'hide' : (this.state.back === false), 'home' : (this.state.page === 'success') } )} onClick={this.goBack}></div>
+				<div className={cx( 'header_back', { 'hide' : (this.state.back === false) } )} data-location={ this.state.page } onClick={this.goBack}>{ this.state.userNames[this.state.page] || 'Home' }</div>
 				<h1 className="header_title">spotter</h1>
-				{avatar}
+				{ basket }
 			</header>
 		);
 	},
 	goBack: function(e) {
-		if (this.state.page === 'success') {
-	    	this.getFlux().actions.page.update({
-	    		page: 'home'
-	    	});
-		} else {
-			this.getFlux().actions.page.goBack();
-		}
-	}
+		this.getFlux().actions.page.goBack();
+	},
+    goToBasket: function(e) {
+        this.getFlux().actions.page.update({
+            page: 'confirmation'
+        });
+    }
 
 });

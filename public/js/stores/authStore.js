@@ -8,14 +8,16 @@ var SpotterAPI = require('../lib/spotter');
 var AuthStore = Fluxxor.createStore({
     initialize: function(params) {
         this.state = {
-            tokens:     null,
+            token:      null,
             trainer:    null
         };
 
         this.bindActions(
+            CONSTANTS.AUTH.INIT,                this.authInitialize,
             CONSTANTS.AUTH.AUTHO.GET,           this.autho.getTrainer,
             CONSTANTS.AUTH.AUTHO.LOCK,          this.autho.createLock,
             CONSTANTS.AUTH.AUTHO.SHOW,          this.autho.show,
+            CONSTANTS.AUTH.AUTHO.LOGOUT,        this.autho.logout,
 
             CONSTANTS.AUTH.SPOTTER.GET,         this.spotter.getTrainer,
 
@@ -24,40 +26,96 @@ var AuthStore = Fluxxor.createStore({
             CONSTANTS.TRAINER.IMAGE.UPLOADED,   this.spotter.uploadedTrainerImage
         );
     },
+    authInitialize: function() {
+        var token = localStorage.getItem('token');
+
+        if (token && window.location.hash.search('access_token') === -1) {
+            this.state.token = token;
+
+            SpotterAPI.getTrainer(function(data) {
+                if (data.id) {
+                    this.state.trainer = data;
+
+                    this.flux.actions.page.update({
+                        page: 'home'
+                    });
+
+                    this.flux.actions.clients.get();
+                } else {
+                    setTimeout(function() {
+                        this.flux.actions.auth.autho.lock();
+                        this.flux.actions.auth.autho.show();
+                    }.bind(this));
+                }
+            }.bind(this));
+        } else {
+            setTimeout(function() {
+                this.flux.actions.auth.autho.lock();
+                this.flux.actions.auth.autho.show();
+            }.bind(this));
+        }
+    },
     autho: {
         createLock: function() {
-            this.state.lock = new Auth0Lock('YDvRFV8XQoX3fuF1X65l8RqMSmCKHGOg', 'fitflow.eu.auth0.com');
+            this.state.lock = new Auth0Lock('YDvRFV8XQoX3fuF1X65l8RqMSmCKHGOg', 'fitflow.eu.auth0.com',{
+                container: 'auth',
+                allowedConnections: ['google-oauth2', 'facebook'],
+                avatar: null,
+                languageDictionary: {
+                    title: 'Log in'
+                },
+                theme: {
+                    logo: window.location.pathname + 'images/loader.png',
+                    primaryColor: 'white'
+                },
+                auth: {
+                   redirect: true,
+                   responseType: 'token'
+                }
+            });
+
+            this.state.lock.on('authenticated', function(authResult) {
+                this.state.lock.getProfile(authResult.idToken, function(error, profile) {
+                    if (error) {
+                        this.signOut();
+                        return;
+                    }
+
+                    this.autho.getTrainer.bind(this)(authResult, profile);
+                }.bind(this));
+            }.bind(this));
         },
         show: function() {
             this.state.lock.show();
         },
-        getTrainer: function() {
-            var tokens = localStorage.getItem('tokens');
+        getTrainer: function(authResult, profile) {
+            if (!authResult.idToken) { return; }
 
-            if (this.state.lock && this.state.lock.parseHash && window.location.hash.length > 0) {
-                this.state.tokens = this.state.lock.parseHash(window.location.hash);
+            try {
+                localStorage.setItem('token', authResult.idToken);
+            } catch (e) {}
 
-                // Safari Porno mode will break localStorage
-                try {
-                    localStorage.setItem('tokens' , JSON.stringify(this.state.tokens));
-                } catch (e) {}
-            } else if (tokens) {
-                this.state.tokens = JSON.parse(tokens);
-            } else {
-                this.signOut();
-            }
+            this.state.token = authResult.idToken;
 
-            if (this.state.tokens) {
+            if (this.state.token) {
                 setTimeout(function() {
                     this.flux.actions.auth.spotter.get();
                 }.bind(this), 0);
             }
+        },
+        logout: function() {
+            try {
+                localStorage.clear();
+            } catch(e) {
+
+            }
+
+            window.location.href = 'https://fitflow.eu.auth0.com/v2/logout?returnTo=' + encodeURI(window.location.origin) + '&client_id=YDvRFV8XQoX3fuF1X65l8RqMSmCKHGOg';
         }
     },
     spotter: {
         getTrainer: function() {
             SpotterAPI.getTrainer(function(data) {
-                console.log('getTrainer callback!', data);
                 if (data.id) {
                     this.state.trainer = data;
 
@@ -99,7 +157,7 @@ var AuthStore = Fluxxor.createStore({
     signOut: function() {
         localStorage.clear();
 
-        this.state.tokens   = null;
+        this.state.token    = null;
         this.state.trainer  = null;
     },
     getState: function(){

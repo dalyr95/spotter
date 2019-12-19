@@ -20,10 +20,10 @@ var spotterAPI = {
 		this.xhrImage('client/update-image/' + id, file, cb);
 	},
 	imageTrainer: function(file, cb) {
-		this.xhrImage('/profile/update-image', file, cb);
+		this.xhrImage('update-image', file, cb);
 	},
 	getClients: function(cb) {
-		this.XHR('client/list', G, cb);
+		this.XHR('client/list?limit=500', G, cb);
 	},
 	getProducts: function(query, cb) {
 		productQueue.forEach(function(xhr) {
@@ -33,11 +33,27 @@ var spotterAPI = {
 
 		productQueue.push(this.xhrQuery('products' + query, G, cb));
 	},
+	getMasterProducts: function(query, cb) {
+		productQueue.forEach(function(xhr) {
+			xhr.abort();
+		});
+		productQueue = [];
+
+		productQueue.push(this.xhrQuery('search/products' + query, G, cb));
+	},
+	getChildProducts: function(query, cb) {
+		productQueue.forEach(function(xhr) {
+			xhr.abort();
+		});
+		productQueue = [];
+
+		productQueue.push(this.xhrQuery('search/deals' + query, G, cb));
+	},
 	getTrainer: function(cb) {
 		this.XHR('profile', G, cb);
 	},
 	updateTrainer: function(data, cb) {
-		this.XHR('/profile/update', P, cb, JSON.stringify(data));
+		this.XHR('profile/update', P, cb, JSON.stringify(data));
 	},
 	sendClientEmail: function(data, cb) {
 		this.XHR('recommend/new', P, cb, JSON.stringify(data));
@@ -49,9 +65,9 @@ var spotterAPI = {
 	    });
 	    xhr.open(method, 'https://data.spotter.online/api/' + frag, true);
 	    xhr.setRequestHeader('Accept', 'application/json');
-	    xhr.setRequestHeader('Authorization', 'Bearer ' + window.flux.stores.AuthStore.state.tokens.id_token);
+	    xhr.setRequestHeader('Authorization', 'Bearer ' + window.flux.stores.AuthStore.state.token);
 	    if (method === 'POST') {
-			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			xhr.setRequestHeader('Content-type', 'application/json');
 			xhr.send(data);
 	    } else {
 		    xhr.send();
@@ -65,7 +81,7 @@ var spotterAPI = {
 			cb(JSON.parse(data.currentTarget.responseText));
 	    });
 	    var query = (frag.indexOf('?') === -1) ? '?' : '&';
-	    xhr.open(method, 'https://data.spotter.online/api/' + frag + query + 'token=' + window.flux.stores.AuthStore.state.tokens.id_token, true);
+	    xhr.open(method, 'https://data.spotter.online/api/' + frag + query + 'token=' + window.flux.stores.AuthStore.state.token, true);
 	    xhr.send();
 
 	    return xhr;
@@ -82,7 +98,7 @@ var spotterAPI = {
 
 		xhr.open('POST', 'https://data.spotter.online/api/' + frag);
 		xhr.setRequestHeader('Accept', 'application/json');
-		xhr.setRequestHeader('Authorization', 'Bearer ' + window.flux.stores.AuthStore.state.tokens.id_token);
+		xhr.setRequestHeader('Authorization', 'Bearer ' + window.flux.stores.AuthStore.state.token);
 
 		xhr.send(formData);
 	},

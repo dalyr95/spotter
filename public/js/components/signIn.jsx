@@ -11,29 +11,41 @@ var cx = require('classnames');
 
 var CONSTANTS = require('../constants/constants');
 
-var SearchBar = require('./searchBar.jsx');
-
 module.exports = React.createClass({
 	displayName: 'signIn.jsx',
 	mixins: [FluxMixin],
+    getInitialState: function() {
+        return {
+            opacity: 0
+        };
+    },
 	componentDidMount: function() {
 		window.scrollTo(0,0);
+
+        setTimeout(function() {
+            this.getFlux().actions.auth.init();
+        }.bind(this));
 	},
     render: function() {
         return (
-            <div className="page signin">
-	            <div className="user_avatar"></div>
-                <form>
-	                <label>
-	                	<button type="submit" onClick={this.proceed}>Sign In</button>
-	                </label>
-                </form>
+            <div className="page signin light_blue">
+                <div className="signin_header">
+                    <picture>
+                        <source srcSet="images/signin_splash.webp" type="image/webp" />
+                        <source srcSet="images/signin_splash.jpg" type="image/jpeg" /> 
+                        <img src="images/signin_splash.jpg" onLoad={ this.splashLoad } style={ { opacity: this.state.opacity } }/>
+                    </picture>
+                </div>
+                <h1 className="center">Log In</h1>
+                <p/>
+                <div id="auth"></div>
             </div>
         );
     },
-    proceed: function(e) {
-    	e.preventDefault();
-    	this.getFlux().actions.auth.autho.show();
+    splashLoad: function() {
+        this.setState({
+            opacity: 1
+        });
     }
 
 });

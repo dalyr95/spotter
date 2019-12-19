@@ -1,24 +1,53 @@
+.page.clients_view h2,
+.page.client_edit h2 {
+    color: #281954;
+    font-size: 24px;
+}
+
 .client_list_client {
-	border-top: 1px solid #ccc;
+	background-color: #fff;
+	border-top: 1px solid #d9d7e1;
+	color: #281954;
 	cursor: pointer;
 	height: 50px;
 	line-height: 50px;
-	padding-left: 50px;
+	padding-left: 60px;
+	padding-right: 10px;
 	position: relative;
+	left: -10px;
+	width: calc(100% + 20px);
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 }
 
+.client_list_client.client_list_no_clients {
+	color: #d9d7e1;
+	padding-left: 0;
+	padding-right: 0;
+	text-align: center;
+}
+
+.client_list_client.client_list_add_client {
+	color: #45d0b1;
+	padding-left: 10px;
+	padding-right: 0;
+}
+
+.client_list_client.client_list_add_client.add_icon::before {
+	margin-right: 26px;
+}
+
 .client_list_client:last-child {
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid #d9d7e1;
 }
 
 .client_list_client span {
-	background-color: #ccc;
+	background-color: #3F2686;
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: 50%;
+	border: 2px solid #ced4dc;
 	border-radius: 100%;
 	display: block;
 	height: 30px;
@@ -26,6 +55,15 @@
 	position: absolute;
 	top: 10px;
 	width: 30px;
+}
+
+.page.clients_view.no_clients .client_list_actions {
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+.client_list_actions a {
+	color: #ff5063;
 }
 
 .edit .client_list_client::after {
@@ -42,21 +80,21 @@
 	transform: rotate(45deg);
 }
 
-.delete .client_list_client::before,
-.delete .client_list_client::after {
+.delete .client_list_client:not(.client_list_add_client)::before,
+.delete .client_list_client:not(.client_list_add_client)::after {
 	background-color: red;
     content: '';
     display: block;
     height: 16px;
     width: 2px;
     position: absolute;
-    right: 10px;
+    right: 20px;
     top: 16px;
 	-webkit-transform: rotate(45deg);
 	transform: rotate(45deg);
 }
 
-.delete .client_list_client::before {
+.delete .client_list_client:not(.client_list_add_client)::before {
 	-webkit-transform: rotate(-45deg);
 	transform: rotate(-45deg);
 }

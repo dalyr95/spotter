@@ -1,9 +1,11 @@
 var constants = {
     AUTH: {
+        INIT: 'AUTH_INIT',
         AUTHO: {
             GET: 'AUTHO_GET',
             LOCK: 'AUTHO_LOCK',
-            SHOW: 'AUTHO_SHOW'
+            SHOW: 'AUTHO_SHOW',
+            LOGOUT: 'AUTHO_LOGOUT'
         },
         SPOTTER: {
             GET: 'SPOTTER_TRAINER_GET'
@@ -38,6 +40,14 @@ var constants = {
         REMOVE: 'PRODUCTS_REMOVE',
         RESET: 'PRODUCTS_RESET',
         SEARCH: 'PRODUCTS_SEARCH'
+    },
+    MASTERPRODUCTS: {
+        SEARCH: 'MASTER_PRODUCTS_SEARCH',
+        SELECTED: 'MASTER_PRODUCTS_SELECTED',
+        VALUE: 'MASTER_PRODUCTS_VALUE'
+    },
+    CHILDPRODUCTS: {
+        GET: 'CHILD_PRODUCTS_GET'
     },
     PAGE: {
         GOBACK: 'PAGE_BACK',

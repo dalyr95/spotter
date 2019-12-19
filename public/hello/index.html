@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Spotter</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<link rel="stylesheet" href="css/main.css" />
+	</head>
+	<body>
+		<!-- Google Tag Manager -->
+		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5N7BF6"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-5N7BF6');</script>
+		<!-- End Google Tag Manager -->
+		<div class="container">
+			<h1>SPOTTER</h1>
+
+			<div id="swiper" class="swipe">
+				<div class='swipe-wrap'>
+					<div class="card card_1">
+						<div class="content">
+							<h2>The best trainers<br/>deserve the best rewards</h2>
+							<p>
+								Sports professional? Join us for <strong class="green">FREE</strong> and every time your clients buy a sports
+								nutrition product you’ve recommended, we’ll pay you commission.<br/>
+							</p>
+							<p>
+								No reward points. No vouchers. Just cash.
+							</p>
+						</div>
+					</div>
+					<div class="card card_2">
+						<div class="content">
+							<h2>Exclusive discounts</h2>
+							<p>
+								From L.A Muscle to USN, choose products from over 250 supplement brands at the lowest prices.<br/> 
+								We’ve partnered with 50 online retailers to bring you discount codes and deals you won’t find anywhere else. 
+							</p>
+						</div>
+					</div>
+					<div class="card card_3">
+						<div class="content">
+							<h2>No more forgotten recommendations</h2>
+							<p>
+								Want to give your clients an even better service with personalised nutrition advice?<br/>
+								With Spotter's one-click messaging service, that’s easy.<br/>
+								Build stronger relationships with your clients through new ways of recommending. 
+							</p>
+						</div>
+					</div>
+					<div class="card card_4">
+						<div class="content">
+							<h2>Trust Spotter to help you make money</h2>
+							<ul>
+								<li><span>Just a few clicks to use</span></li>
+
+								<li><span>Choice of over 250 brands</span></li>
+
+								<li><span>Best prices &amp; discount codes</span></li>
+
+								<li class="green"><span>Completely FREE with no commitment</span></li>
+
+								<li><span>A better service from you to your clients</span></li>
+								 
+								<li><span>Top tips on the latest sports nutrition trends</span></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="menu">
+				<ul id="menu_blobs">
+					<li class="active"></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+
+				<button>SIGN UP</button>
+				<button>LOG IN</button>
+			</div>
+		</div>
+		<script src="js/swipe.js"></script>
+		<script>
+			var card 	= 0;
+			var blobs 	= [].slice.call(document.getElementById('menu_blobs').children);
+
+			window.mySwipe = new Swipe(document.getElementById('swiper'), {
+				startSlide: 0,
+				speed: 200,
+				continuous: false,
+				disableScroll: false,
+				stopPropagation: false,
+				callback: function(index, elem) {},
+				transitionEnd: function(index, elem) {
+					blobs.forEach(function(blob, i) {
+						blob.classList[i === index ? 'add' : 'remove']('active');
+					});
+				}
+			});
+
+			[].slice.call(document.getElementsByTagName('button')).forEach(function(btn) {
+				btn.addEventListener('click', function(e) {
+					e.preventDefault();
+					window.location.href = '/';
+				});
+			});
+
+			blobs.forEach(function(blob) {
+				blob.addEventListener('click', function(e) {
+					e.preventDefault();
+
+					mySwipe.slide(indexInParent(e.currentTarget), 200);
+				})
+			});
+
+			function indexInParent(node) {
+			    var children = node.parentNode.childNodes;
+			    var num = 0;
+			    for (var i=0; i<children.length; i++) {
+			         if (children[i]==node) return num;
+			         if (children[i].nodeType==1) num++;
+			    }
+			    return -1;
+			}
+		</script>
+	</body>
+</html>

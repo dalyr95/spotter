@@ -16,7 +16,7 @@ module.exports = React.createClass({
 
 		if (this.props.person && this.props.person.picture) {
 			avatarClasses.user_selected		= true;
-			avatarInlineCSS.backgroundImage = 'url(' + this.props.person.picture + ')';
+			avatarInlineCSS.backgroundImage = 'url(' + this.props.person.picture + '?&w=224&h=224&fit=crop)';
 		}
 
         return (

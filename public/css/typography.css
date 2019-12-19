@@ -1,15 +1,21 @@
 @font-face {
-  font-family: 'AvenirNext-Regular';
-  src: url('../../fonts/AvenirNext-Regular.woff2') format('woff2'),
-       url('../../fonts/AvenirNext-Regular.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'montserratlight';
+    src: url('../../fonts/montserrat-light-webfont.woff2') format('woff2'),
+         url('../../fonts/montserrat-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: 'AvenirNext-Regular';
-  src: url('../../fonts/AvenirNext-Bold.woff2') format('woff2'),
-       url('../../fonts/AvenirNext-Bold.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
+    font-family: 'montserratregular';
+    src: url('../../fonts/montserrat-regular-webfont.woff2') format('woff2'),
+         url('../../fonts/montserrat-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.lazy_load_fonts {
+    color: #fff;
+    font-family: 'montserratlight';
+    text-align: center;
 }

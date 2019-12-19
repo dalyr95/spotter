@@ -9,14 +9,23 @@ var ProductStore = Fluxxor.createStore({
     initialize: function(params) {
 		this.state = {
 			products: [],
-			selectedProducts: []
+			selectedProducts: [],
+            masterProducts: [],
+            childProducts: [],
+            selectedMasterProduct: null,
+            loading: false,
+            value: ''
 		};
 
         this.bindActions(
-            CONSTANTS.PRODUCTS.ADD,		this.addProduct,
-            CONSTANTS.PRODUCTS.REMOVE,	this.removeProduct,
-            CONSTANTS.PRODUCTS.RESET,	this.resetStore,
-            CONSTANTS.PRODUCTS.SEARCH,	this.productSearch
+            CONSTANTS.PRODUCTS.ADD,             this.addProduct,
+            CONSTANTS.PRODUCTS.REMOVE,          this.removeProduct,
+            CONSTANTS.PRODUCTS.RESET,           this.resetStore,
+            CONSTANTS.PRODUCTS.SEARCH,          this.productSearch,
+            CONSTANTS.MASTERPRODUCTS.SELECTED,  this.masterProductSelected,
+            CONSTANTS.MASTERPRODUCTS.SEARCH,    this.masterProductSearch,
+            CONSTANTS.MASTERPRODUCTS.VALUE,     this.masterProductValue,
+            CONSTANTS.CHILDPRODUCTS.GET,        this.childProductsGet
         );
     },
     getState: function(){
@@ -40,13 +49,59 @@ var ProductStore = Fluxxor.createStore({
     productSearch: function(payload) {
 		var query = '?name=' + payload.value;
 
+        this.state.loading = true;
+
 		this.emit('change');
 
 		SpotterAPI.getProducts(query, function(data) {
 			this.state.products = data.data;
+            this.state.loading = false;
+
 			this.emit('change:updateProduct');
 			this.emit('change');
 		}.bind(this));
+    },
+    masterProductSearch: function(payload) {
+        var query = '?name=' + payload.value;
+
+        this.state.loading = true;
+
+        this.emit('change');
+
+        SpotterAPI.getMasterProducts(query, function(data) {
+            this.state.masterProducts = data.data;
+            this.state.loading = false;
+
+            this.emit('change:updateMasterProduct');
+            this.emit('change');
+        }.bind(this));
+    },
+    masterProductValue: function(payload) {
+        this.state.loading = true;
+        this.state.value = payload.value;
+
+        this.emit('change:updateMasterProductValue');
+        this.emit('change');
+    },
+    masterProductSelected: function(payload) {
+        this.state.selectedMasterProduct = payload.masterProduct;
+    },
+    childProductsGet: function(payload) {
+        var query = '?master_product=' + this.state.selectedMasterProduct.id;
+
+        if (payload.limit) { query += '&limit=' + payload.limit; }
+
+        this.state.loading = true;
+
+        this.emit('change');
+
+        SpotterAPI.getChildProducts(query, function(data) {
+            this.state.childProducts = data.data;
+            this.state.loading = false;
+
+            this.emit('change:loadedChildProduct');
+            this.emit('change');
+        }.bind(this));
     }
 });
 

@@ -22,6 +22,10 @@ module.exports = React.createClass({
         trainer.fname = name.shift();
         trainer.lname = name.join(' ');
 
+        if (!trainer.phone) {
+            trainer.phone = '';
+        }
+
         return {
             trainer: trainer
         };
@@ -31,7 +35,7 @@ module.exports = React.createClass({
 	},
     render: function() {
         return (
-            <div className="page profile">
+            <div className="page profile light_blue">
                 <Avatar person={this.state.trainer} />
                 <form>
                     <label>
@@ -47,8 +51,13 @@ module.exports = React.createClass({
                         <input type="email" placeholder="Email" onChange={this.update.bind(this, 'email')} value={this.state.trainer.email} disabled />
                     </label>
                     <label>
+                        Phone Number
+                        <input type="tel" placeholder="Phone Number" onChange={this.update.bind(this, 'phone')} value={this.state.trainer.phone} />
+                    </label>
+                    <label htmlFor="image">
                         Upload an image
-                        <input ref="file" type="file" accept="image/*" capture="camera" />
+                        <input type="text" placeholder={ this.state.imagePath || 'Upload image' } className="nopointer" readOnly/>
+                        <input id="image" ref="file" type="file" accept="image/*" capture="camera" onChange={ this.imageChange } />
                     </label>
 	                <label>
 	                	<button type="submit" onClick={this.proceed}>Update trainer details</button>
@@ -105,6 +114,12 @@ module.exports = React.createClass({
 
         flux.actions.page.update({
             page: 'home'
+        });
+    },
+    imageChange: function(e) {
+        var img = e.currentTarget.value.split('\\');
+        this.setState({
+            imagePath: img[img.length - 1]
         });
     }
 

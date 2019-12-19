@@ -14,11 +14,11 @@ var ClientAdd			= require('./client/clientAdd.jsx'),
 	Header				= require('./header.jsx'),
 	Home				= require('./home.jsx'),
 	Profile				= require('./profile.jsx'),
+	MasterProduct		= require('./masterProduct.jsx'),
 	Product				= require('./product.jsx'),
 	SignIn				= require('./signIn.jsx'),
 	Settings			= require('./settings.jsx'),
-	Success				= require('./success.jsx'),
-	User				= require('./user.jsx');
+	Success				= require('./success.jsx');
 
 module.exports = React.createClass({
 	mixins: [FluxMixin, StoreWatchMixin('PageStore')],
@@ -32,13 +32,9 @@ module.exports = React.createClass({
 			page: flux.store('PageStore').getState()
 		};
 	},
-	componentWillMount: function() {
-		console.log('componentWillMount');
-        this.getFlux().actions.auth.autho.lock();
-        this.getFlux().actions.auth.autho.get();
-	},
-	componentWillUpdate: function() {
-		console.log('componentWillUpdate');
+	componentDidMount: function() {
+        //this.getFlux().actions.auth.autho.lock();
+        //this.getFlux().actions.auth.autho.get();
 	},
     render: function() {
 		var page;
@@ -65,6 +61,9 @@ module.exports = React.createClass({
 		    case 'product':
 		        page = (<Product />);
 		        break;
+		    case 'masterProduct':
+		        page = (<MasterProduct />);
+		        break;
 		    case 'profile':
 		        page = (<Profile />);
 		        break;
@@ -73,9 +72,6 @@ module.exports = React.createClass({
 		        break;
 		    case 'success':
 		        page = (<Success />);
-		        break;
-		    case 'user':
-		        page = (<User />);
 		        break;
 		    default:
 		        page = (<SignIn />);

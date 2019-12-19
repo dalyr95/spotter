@@ -15,6 +15,19 @@ var originalState = {
 	product: { name: '' }
 };
 
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        }, wait);
+        if (immediate && !timeout) func.apply(context, args);
+    };
+};
+
 module.exports = React.createClass({
 	mixins: [FluxMixin, StoreWatchMixin('ProductStore')],
     displayName: 'itemSelect.jsx',
@@ -58,15 +71,18 @@ module.exports = React.createClass({
     	var value = e.currentTarget.value.toString().toLowerCase();
 
     	if (value.length > 0) {
-            this.getFlux().actions.products.search({
-                search_term: value
-            });
-	    }
+            this.getProducts(value);
+	    }  
 
     	this.setState({
     		product: { name: e.currentTarget.value }
     	});
     },
+    getProducts: debounce(function(value) {
+        this.getFlux().actions.products.search({
+            search_term: value
+        });
+    }, 250),
     updateProductList: function() {
         var matches = (this.state.product.name.length > 0) ? this.getFlux().store('ProductStore').getState().products : [];
 

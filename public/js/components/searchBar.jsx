@@ -12,7 +12,7 @@ module.exports = React.createClass({
 
     	this.props.matches.forEach(function(result) {
     		results.push(
-    			<SearchBarResult key={result[this.props.reactKeys || this.props.keys]} keys={this.props.keys} result={result} class="searchbar_result" onSelectedAction={this.props.onSelectedAction} />
+    			<SearchBarResult key={result[this.props.reactKeys || this.props.keys]} result={result} className="searchbar_result" onSelectedAction={this.props.onSelectedAction} />
     		);
     	}.bind(this));
 

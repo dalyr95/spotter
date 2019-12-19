@@ -7,8 +7,6 @@ var React = require('react'),
 	FluxMixin = Fluxxor.FluxMixin(React),
     StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
-var cx = require('classnames');
-
 var CONSTANTS = require('../constants/constants');
 
 var Avatar		= require('./avatar.jsx');
